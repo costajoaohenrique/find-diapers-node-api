@@ -26,5 +26,10 @@ module.exports = (app) => {
         })
     })
 
+    app.get('/teste', (req, resp) => {
+        console.log("Requisição da Rota Teste recebida")
+        resp.send("Requisicao Recebida")
+    })
+
     
 }
