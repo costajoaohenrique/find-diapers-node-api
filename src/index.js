@@ -1,6 +1,6 @@
-var app = require("./config/server")()
+const express = require('express')
+const PORT = process.env.PORT || 5000
 
-
-app.listen(3000, () => {
-    console.log("Iniciando API NODE")
-})
+express()
+  .get('/', (req, res) => res.send("Requsição recebida"))
+  .listen(PORT, () => console.log(`Listening on ${ PORT }`))
