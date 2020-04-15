@@ -6,12 +6,23 @@ const DB_NAME = process.env.DB_NAME
 
 module.exports = (app) => {
     app.get('/diapers', (req, resp) => {
-        console.log("Primeira requisição recebiida")
+
+        let queryMongo = '{}'
+        let queryParam = req.query.q
+
+        if(queryParam){
+            queryMongo = { $text: { $search: queryParam  } }
+        }
+        console.log(queryParam)
         MongoClient.connect(DB_URI, (err, client) => {
             if (err) throw err;
             var db = client.db(DB_NAME)
-            db.collection("diapers").find().toArray((error, result) => {
-                if (error) console.error("Erro ao buscar os produtos no banco")
+            db.collection("diapers").find(queryMongo).toArray((error, result) => {
+                if (error){
+                    console.error("Erro ao buscar os produtos no banco")
+                    throw error
+                } 
+                 
                 resp.json(result)
             })
         })
